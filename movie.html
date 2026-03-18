@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Cinema World</title>
+<style>
+*{box-sizing:border-box;font-family:Segoe UI,Tahoma}
+body{
+margin:0;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:#fff;min-height:100vh
+}
+header{
+padding:60px 20px;text-align:center
+}
+header h1{font-size:42px}
+header p{color:#ccc;margin-top:10px}
+
+.container{
+width:90%;max-width:1100px;margin:auto;
+display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;padding-bottom:60px
+}
+.card{
+background:#1e2a38;border-radius:18px;overflow:hidden;
+box-shadow:0 20px 40px rgba(0,0,0,.6);
+transition:.4s
+}
+.card:hover{transform:translateY(-12px)}
+.card img{width:100%;height:360px;object-fit:cover}
+.content{padding:20px}
+.tag{
+display:inline-block;margin-top:10px;
+padding:6px 14px;border-radius:20px;
+background:#4facfe;color:#000;font-size:13px
+}
+footer{text-align:center;padding:25px;color:#aaa}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎬 CINEMA WORLD</h1>
+<p>Thế giới phim nổi tiếng dành riêng cho bạn</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa">
+<div class="content">
+<h3>Interstellar</h3>
+<p>Hành trình vượt không gian và thời gian đầy cảm xúc.</p>
+<span class="tag">Sci-Fi</span>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4">
+<div class="content">
+<h3>Inception</h3>
+<p>Giấc mơ trong giấc mơ, nơi thực tại bị bẻ cong.</p>
+<span class="tag">Mind-Bending</span>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<div class="content">
+<h3>Titanic</h3>
+<p>Câu chuyện tình yêu bất hủ giữa đại dương.</p>
+<span class="tag">Romance</span>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1606112219348-204d7d8b94ee">
+<div class="content">
+<h3>Avengers: Endgame</h3>
+<p>Hồi kết hoành tráng của kỷ nguyên siêu anh hùng.</p>
+<span class="tag">Action</span>
+</div>
+</div>
+
+</div>
+
+<footer>© 2026 Cinema World</footer>
+
+</body>
+</html>

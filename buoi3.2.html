@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Memory Game</title>
+
+  <style>
+    .card {
+      width: 80px;
+      height: 80px;
+      border: 1px solid black;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      cursor: pointer;
+      margin: 10px;
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h3>Game lật thẻ</h3>
+
+  <div id="game"></div>
+
+  <script>
+    // Danh sách thẻ (2 cặp)
+    const cards = ["🍎", "🍎", "🍌", "🍌"];
+
+    // Xáo trộn
+    cards.sort(() => Math.random() - 0.5);
+
+    let first = null;
+    let second = null;
+
+    const game = document.getElementById("game");
+
+    // Tạo thẻ
+    cards.forEach(emoji => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = "❓";
+      card.dataset.value = emoji;
+
+      card.onclick = () => flip(card);
+
+      game.appendChild(card);
+    });
+
+    // Lật thẻ
+    function flip(card) {
+      if (second || card === first) return;
+
+      card.innerHTML = card.dataset.value;
+
+      if (!first) {
+        first = card;
+      } else {
+        second = card;
+        check();
+      }
+    }
+
+    // Kiểm tra
+    function check() {
+      if (first.dataset.value !== second.dataset.value) {
+        setTimeout(() => {
+          first.innerHTML = "❓";
+          second.innerHTML = "❓";
+        }, 500);
+      }
+      first = null;
+      second = null;
+    }
+  </script>
+
+</body>
+</html>

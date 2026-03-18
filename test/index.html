@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nhân vật lịch sử</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Tahoma;
+}
+
+body{
+    background:linear-gradient(135deg,#eef2f3,#dfe9f3);
+}
+
+/* HEADER */
+header{
+    background:#ffae00;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+nav a{
+    margin:0 10px;
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    transition:.3s;
+}
+nav a:hover{
+    color:black;
+}
+
+/* USER INFO */
+.user-box{
+    color:white;
+    font-size:14px;
+}
+
+/* CARD */
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:25px;
+    padding:30px;
+}
+
+.card{
+    width:230px;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    text-align:center;
+    padding:15px;
+    transition:.3s;
+}
+.card:hover{
+    transform:translateY(-8px) scale(1.03);
+}
+
+.card img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.card h3{
+    margin:10px 0;
+}
+
+.card p{
+    font-size:14px;
+    color:#555;
+}
+
+/* BUTTON */
+button{
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    border-radius:8px;
+    background:#ff6600;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+button:hover{
+    background:#e65c00;
+}
+
+/* FOOTER */
+footer{
+    background:#ffae00;
+    text-align:center;
+    padding:20px;
+    margin-top:20px;
+}
+/* BUTTON LOGIN REGISTER */
+.btn{
+    padding:8px 16px;
+    border-radius:20px;
+    text-decoration:none;
+    font-size:14px;
+    margin-left:8px;
+    transition:0.3s;
+    display:inline-block;
+}
+
+/* LOGIN */
+.login{
+    background:white;
+    color:#ff6600;
+    font-weight:bold;
+}
+.login:hover{
+    background:#ffe0cc;
+    transform:scale(1.05);
+}
+
+/* REGISTER */
+.register{
+    background:#ff6600;
+    color:white;
+    font-weight:bold;
+}
+.register:hover{
+    background:#e65c00;
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">Trang chủ</a>
+        <a href="tranghinhanh.html">Hình ảnh</a>
+        <a href="trangtonghop.html">Tổng hợp</a>
+        <a href="nhanvatkhac.html">Nhân vật khác</a>
+        <a href="https://www.facebook.com/khai.nguyen.763934/?locale=vi_VN">Liên hệ</a>
+    </nav>
+
+<div class="user-box" id="userBox">
+    <a href="login.html" class="btn login">Đăng nhập</a>
+    <a href="register.html" class="btn register">Đăng ký</a>
+</div>
+</header>
+
+<!-- DANH SÁCH -->
+<div class="container">
+
+    <div class="card">
+        <img src="https://tse1.mm.bing.net/th/id/OIP.y5Pszh3miG-DnqETu9XfsQAAAA">
+        <h3>Hồ Chí Minh</h3>
+        <p>Lãnh tụ vĩ đại của Việt Nam</p>
+        <a href="chitietvebac.html"><button>Xem chi tiết</button></a>
+    </div>
+
+    <div class="card">
+        <img src="http://thcslamvy.dinhhoa.edu.vn/upload/s/20171222/75a53d9727adaa1c7e0fd171f115e88517784-fd89acf26c84893c4b12ef4d8628054b.jpg">
+        <h3>Lý Thái Tổ</h3>
+        <p>Người sáng lập nhà Lý</p>
+        <a href="chitietvelythaito.html"><button>Xem chi tiết</button></a>
+    </div>
+
+    <div class="card">
+        <img src="https://www.quangbinh.gov.vn/3cms/upload/qbportal/Image/TintucSuKien/2015/7/DT500cn.jpg">
+        <h3>Võ Nguyên Giáp</h3>
+        <p>Vị tướng huyền thoại</p>
+        <a href="chitietveVonguyengiap.html"><button>Xem chi tiết</button></a>
+    </div>
+
+    <div class="card">
+        <img src="https://images.hcmcpv.org.vn/res/news/2021/07/25-07-2021-khong-ai-duoc-phep-xuc-pham-nu-anh-hung-liet-si-vo-thi-sau-AC1DC952.jpg">
+        <h3>Võ Thị Sáu</h3>
+        <p>Nữ anh hùng dân tộc</p>
+        <a href="chitietveVothisau.html"><button>Xem chi tiết</button></a>
+    </div>
+
+</div>
+
+<footer>
+    <p>© Website lịch sử - học mà chill đi:))) 📚</p>
+</footer>
+
+<script>
+let acc = JSON.parse(localStorage.getItem("account"))
+let userBox = document.getElementById("userBox")
+
+if(acc){
+    userBox.innerHTML = `
+        Xin chào <b>${acc.u}</b> |
+        <a href="#" onclick="logout()">Đăng xuất</a>
+    `
+}
+
+function logout(){
+    localStorage.removeItem("account")
+    location.reload()
+}
+</script>
+
+</body>
+</html>

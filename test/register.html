@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<style>
+*{box-sizing:border-box;font-family:Segoe UI,Tahoma}
+:root{
+--bg:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+--card:#1e2a38;--text:#fff;--input:#2a2a2a;--btn:#4facfe;--err:#ff6b6b
+}
+body{
+margin:0;height:100vh;background:var(--bg);
+display:flex;align-items:center;justify-content:center;
+color:var(--text)
+}
+.box{
+width:380px;background:var(--card);padding:40px;
+border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.6);
+animation:up .7s ease
+}
+@keyframes up{from{opacity:0;transform:translateY(40px)}to{opacity:1}}
+h2{text-align:center}
+input{
+width:100%;padding:12px;margin-top:12px;
+border:none;border-radius:10px;background:var(--input);
+color:var(--text)
+}
+.error{color:var(--err);font-size:13px;height:14px}
+button{
+width:100%;margin-top:20px;padding:12px;
+border:none;border-radius:10px;background:var(--btn);
+font-size:16px;color:#000
+}
+.link{text-align:center;margin-top:14px}
+.link a{color:var(--btn)}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Register</h2>
+
+<form onsubmit="return register()">
+<input id="user" placeholder="Tên đăng nhập">
+<div id="uErr" class="error"></div>
+
+<input id="pass" type="password" placeholder="Mật khẩu">
+<div id="pErr" class="error"></div>
+
+<input id="repass" type="password" placeholder="Nhập lại mật khẩu">
+<div id="rErr" class="error"></div>
+
+<button>Đăng ký</button>
+</form>
+
+<div class="link">Đã có tài khoản?
+<a href="login.html">Đăng nhập</a></div>
+</div>
+
+<script>
+function register(){
+uErr.textContent=pErr.textContent=rErr.textContent=""
+if(user.value===""){uErr.textContent="Nhập tên";return false}
+if(pass.value.length<6){pErr.textContent="Ít nhất 6 ký tự";return false}
+if(pass.value!==repass.value){rErr.textContent="Không khớp";return false}
+localStorage.setItem("account",JSON.stringify({u:user.value,p:pass.value}))
+document.body.style.opacity=0
+setTimeout(()=>location.href="login.html",400)
+return false
+}
+</script>
+
+</body>
+</html>

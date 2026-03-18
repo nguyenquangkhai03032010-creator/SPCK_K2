@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App UI</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net" rel="stylesheet">
+    <style>
+        body {
+            background-color: #43affc; /* Màu nền xanh giống ảnh */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .weather-card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Tiêu đề */
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            color: #43affc;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        /* Ô nhập liệu */
+        .city-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+        }
+        .city-input:focus {
+            border-color: #43affc;
+        }
+
+        /* Vách ngăn "or" */
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #ccc;
+            margin: 20px 0;
+        }
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .separator:not(:empty)::before { margin-right: .5em; }
+        .separator:not(:empty)::after { margin-left: .5em; }
+
+        /* Nút bấm */
+        .btn-location {
+            background-color: #43affc;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .btn-location:hover {
+            background-color: #3596db;
+            color: white;
+        }
+
+        /* Phần kết quả đơn giản */
+        #result {
+            display: none;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="weather-card">
+    <div class="header">Weather App</div>
+    
+    <div class="content text-center">
+        <!-- Ô nhập thông tin -->
+        <input type="text" id="cityInput" class="city-input" placeholder="Enter city name">
+        
+        <div class="separator">or</div>
+        
+        <!-- Nút định vị -->
+        <button class="btn-location" onclick="getLocation()">Get Device Location</button>
+
+        <!-- Vùng hiển thị kết quả (Ẩn cho đến khi có dữ liệu) -->
+        <div id="result" class="mt-4">
+            <h4 id="cityName" class="fw-bold"></h4>
+            <p id="temp" class="display-6 mb-0"></p>
+            <p id="desc" class="text-muted text-capitalize"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_KEY = 'YOUR_API_KEY'; // Thay API Key của bạn vào đây
+
+    // Bắt sự kiện Enter khi nhập tên thành phố
+    document.getElementById('cityInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const city = e.target.value;
+            fetchWeather(`https://api.openweathermap.org{city}&appid=${API_KEY}&units=metric&lang=vi`);
+        }
+    });
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(p => {
+                fetchWeather(`https://api.openweathermap.org{p.coords.latitude}&lon=${p.coords.longitude}&appid=${API_KEY}&units=metric&lang=vi`);
+            });
+        }
+    }
+
+    async function fetchWeather(url) {
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.cod === 200) {
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                document.getElementById('cityName').innerText = data.name;
+                document.getElementById('temp').innerText = Math.round(data.main.temp) + '°C';
+                document.getElementById('desc').innerText = data.weather[0].description;
+            } else {
+                alert("Không tìm thấy thành phố!");
+            }
+        } catch (e) {
+            alert("Lỗi kết nối!");
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
