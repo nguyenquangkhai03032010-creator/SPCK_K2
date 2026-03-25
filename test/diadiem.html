@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Địa điểm lịch sử Việt Nam</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, #ff7e00, #ffae00);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: white;
+      left: 0;
+      bottom: -3px;
+      transition: 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* USER */
+    .user-box {
+      color: white;
+    }
+
+    /* BUTTON */
+    .btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 14px;
+      margin-left: 8px;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .login {
+      background: white;
+      color: #ff6600;
+      font-weight: bold;
+    }
+
+    .login:hover {
+      background: #ffe0cc;
+      transform: scale(1.05);
+    }
+
+    .register {
+      background: #ff6600;
+      color: white;
+      font-weight: bold;
+    }
+
+    .register:hover {
+      background: #e65c00;
+      transform: scale(1.05);
+    }
+
+    /* CONTAINER */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      padding: 30px;
+    }
+
+    /* CARD */
+    .item {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+
+    .item:hover {
+      transform: translateY(-8px);
+    }
+
+    .item h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #ff6600;
+    }
+
+    /* MAP */
+    .map {
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid #ffe0cc;
+    }
+
+    /* FOOTER */
+    footer {
+      background: linear-gradient(90deg, #ff7e00, #ffae00);
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="tranghinhanh.html">Hình ảnh</a>
+      <a href="trangtonghop.html">Tổng hợp</a>
+      <a href="nhanvatkhac.html">Nhân vật khác</a>
+      <a href="https://www.facebook.com/khai.nguyen.763934/?locale=vi_VN">Liên hệ</a>
+      <a href="./diadiem.html">Branch</a>'
+    </nav>
+
+    <div class="user-box">
+      <a href="login.html" class="btn login">Đăng nhập</a>
+      <a href="register.html" class="btn register">Đăng ký</a>
+    </div>
+  </header>
+
+  <!-- DANH SÁCH -->
+  <div class="container" id="container"></div>
+
+  <footer>
+    <p>© Website lịch sử - học mà chill 📚</p>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    const historicalSite = [
+      { name: "Cố đô Huế", lat: 16.469278, long: 107.577361 },
+      { name: "Hoàng thành Thăng Long", lat: 21.03752, long: 105.838623 },
+      { name: "Dinh Độc Lập", lat: 10.777, long: 106.6953 },
+      { name: "Cố đô Hoa Lư", lat: 20.2847, long: 105.908 },
+      { name: "Thánh địa Mỹ Sơn", lat: 15.763, long: 108.126 },
+      { name: "Phố cổ Hội An", lat: 15.8771, long: 108.3267 },
+      { name: "Địa đạo Củ Chi", lat: 11.1427, long: 106.4603 },
+      { name: "Nhà tù Côn Đảo", lat: 8.6821, long: 106.6074 },
+      { name: "Nhà tù Phú Quốc", lat: 10.0438, long: 104.0173 }
+    ];
+
+    const container = document.getElementById("container");
+
+    // Tạo HTML
+    historicalSite.forEach((site, index) => {
+      container.innerHTML += `
+        <div class="item">
+          <h2>${site.name}</h2>
+          <div id="map${index}" class="map"></div>
+        </div>
+      `;
+    });
+
+    // Tạo map
+    historicalSite.forEach((site, index) => {
+      const map = L.map("map" + index).setView([site.lat, site.long], 13);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap"
+      }).addTo(map);
+
+      L.marker([site.lat, site.long])
+        .addTo(map)
+        .bindPopup("📍 " + site.name)
+        .openPopup();
+    });
+  </script>
+
+</body>
+</html>
